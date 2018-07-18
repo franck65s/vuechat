@@ -11,6 +11,7 @@ Vue.config.productionTip = false
 Vue.use(Vuefire)
 Vue.use(VueRouter)
 
+let app
 var config = {
   apiKey: 'AIzaSyDXpZeKQPkahUO1BXwslUhsmn5ZBCyx9Nc',
   authDomain: 'vuechat-fbcdf.firebaseapp.com',
@@ -22,24 +23,30 @@ var config = {
 }
 
 firebase.initializeApp(config)
+firebase.auth().onAuthStateChanged(function (user) {
+  if (!app) {
+    app = new Vue({
+      el: '#app',
+      template: '<App/>',
+      components: { App },
+      router
+    })
+  }
+})
 
-var firebaseRef = firebase.database().ref()
-export default firebase
-export var chatRef = firebaseRef.child('chat')
+// var firebaseRef = firebase.database().ref()
+// export default firebase
+// export var chatRef = firebaseRef.child('chat')
 
 /* eslint-disable no-new */
-new Vue({
-  router,
-  created () {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.$router.push('/chat')
-      } else {
-        this.$router.push('/auth')
-      }
-    })
-  },
-  el: '#app',
-  template: '<App/>',
-  components: { App }
-})
+// new Vue({
+//   router,
+//   created () {
+//     firebase.auth().onAuthStateChanged((user) => {
+//       if (user) {
+//         this.$router.push('/chat')
+//       } else {
+//         this.$router.push('/auth')
+//       }
+//     })
+//   },
