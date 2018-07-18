@@ -4,10 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuefire from 'vuefire'
+import VueRouter from 'vue-router'
 import firebase from 'firebase'
 
 Vue.config.productionTip = false
 Vue.use(Vuefire)
+Vue.use(VueRouter)
 
 var config = {
   apiKey: 'AIzaSyDXpZeKQPkahUO1BXwslUhsmn5ZBCyx9Nc',
@@ -27,8 +29,17 @@ export var chatRef = firebaseRef.child('chat')
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
   router,
+  created () {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$router.push('/chat')
+      } else {
+        this.$router.push('/auth')
+      }
+    })
+  },
+  el: '#app',
   template: '<App/>',
   components: { App }
 })
