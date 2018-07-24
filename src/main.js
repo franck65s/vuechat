@@ -13,7 +13,7 @@ Vue.use(Vuefire)
 Vue.use(firebase)
 
 let app
-export const config = {
+const config = {
   apiKey: 'AIzaSyDXpZeKQPkahUO1BXwslUhsmn5ZBCyx9Nc',
   authDomain: 'vuechat-fbcdf.firebaseapp.com',
   databaseURL: 'https://vuechat-fbcdf.firebaseio.com',
@@ -21,20 +21,10 @@ export const config = {
   storageBucket: 'vuechat-fbcdf.appspot.com',
   messagingSenderId: '1072283882132'
 }
-firebase.initializeApp(config)
-var firebaseRef = firebase.database().ref()
+var firebaseApp = firebase.initializeApp(config)
+var firebaseRef = firebaseApp.database().ref()
 export default firebase
 export var chatRef = firebaseRef.child('chat')
-// const firebaseApp = firebase.initializeApp({
-//   apiKey: 'AIzaSyDXpZeKQPkahUO1BXwslUhsmn5ZBCyx9Nc',
-//   authDomain: 'vuechat-fbcdf.firebaseapp.com',
-//   databaseURL: 'https://vuechat-fbcdf.firebaseio.com',
-//   projectId: 'vuechat-fbcdf',
-//   storageBucket: 'vuechat-fbcdf.appspot.com',
-//   messagingSenderId: '1072283882132'
-// })
-// export const db = firebaseApp.database()
-
 firebase.auth().onAuthStateChanged(function (user) {
   if (!app) {
     app = new Vue({
@@ -45,20 +35,3 @@ firebase.auth().onAuthStateChanged(function (user) {
     })
   }
 })
-
-// var firebaseRef = firebase.database().ref()
-// export default firebase
-// export var chatRef = firebaseRef.child('chat')
-
-/* eslint-disable no-new */
-// new Vue({
-//   router,
-//   created () {
-//     firebase.auth().onAuthStateChanged((user) => {
-//       if (user) {
-//         this.$router.push('/chat')
-//       } else {
-//         this.$router.push('/auth')
-//       }
-//     })
-//   },
